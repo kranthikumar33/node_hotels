@@ -33,11 +33,21 @@ router.get('/',async(req,res)=>{
 
 router.get('/:taste',async(req,res)=>{
   try{
- 
+      const tasteType=req.params.taste; //extract the taste type from the url parameter//
+      if(tasteType=='sweet'|| tasteType=='sour'|| tasteType=='spicy'){
+        const response=await MenuItem.find({taste:tasteType});
+        console.log('response fetched');
+        res.status(200).json(response);
+      }
+      else{
+        res.status(404).json({error:"Inavlid work type"});
+      }
   }
   catch(error){
-    
+    console.log(error);
+    res.status(500).json({error:"Internal server error"});
   }
+
 })
 //comment added for testing purposes
 module.exports=router;
